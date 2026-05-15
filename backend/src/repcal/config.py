@@ -32,4 +32,4 @@ class Settings(BaseSettings):
         return self.app_env == "development"
 
 
-settings = Settings()  # type: ignore[call-arg]
+settings = Settings()

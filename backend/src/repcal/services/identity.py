@@ -23,16 +23,19 @@ async def get_or_create_user(
 
     Idempotent: safe to call on every incoming message.
     """
-    result = await session.execute(
-        select(User)
-        .join(UserIdentity, UserIdentity.user_id == User.id)
-        .where(
+    # Two-step lookup avoids `.join()` whose on-clause type confuses mypy
+    # without the SQLAlchemy mypy plugin. Two queries here is trivial cost.
+    identity_result = await session.execute(
+        select(UserIdentity).where(
             UserIdentity.platform == platform.value,
             UserIdentity.external_id == external_id,
         )
     )
-    user = result.scalar_one_or_none()
-    if user is not None:
+    identity = identity_result.scalar_one_or_none()
+
+    if identity is not None:
+        user = await session.get(User, identity.user_id)
+        assert user is not None, "user_id in identity should always reference a user"
         return user
 
     user = User(display_name=display_name)
@@ -40,11 +43,11 @@ async def get_or_create_user(
     await session.flush()  # populate user.id
 
     assert user.id is not None
-    identity = UserIdentity(
+    new_identity = UserIdentity(
         user_id=user.id,
         platform=platform.value,
         external_id=external_id,
     )
-    session.add(identity)
+    session.add(new_identity)
     await session.flush()
     return user

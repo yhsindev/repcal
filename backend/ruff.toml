@@ -15,7 +15,10 @@ select = [
     "SIM",   # flake8-simplify
 ]
 ignore = [
-    "E501",  # line too long (formatter handles it)
+    "E501",   # line too long (formatter handles it)
+    "RUF001", # ambiguous unicode (strings) — CJK fullwidth punctuation is intentional
+    "RUF002", # ambiguous unicode (docstrings)
+    "RUF003", # ambiguous unicode (comments)
 ]
 
 [lint.per-file-ignores]

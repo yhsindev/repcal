@@ -15,16 +15,16 @@ import os
 os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///:memory:")
 os.environ.setdefault("DISCORD_BOT_TOKEN", "test-token")
 
-from collections.abc import AsyncIterator  # noqa: E402
+from collections.abc import AsyncIterator
 
-import pytest_asyncio  # noqa: E402
-from sqlalchemy.ext.asyncio import (  # noqa: E402
+import pytest_asyncio
+from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
 
-from repcal.models import metadata  # noqa: E402
+from repcal.models import metadata
 
 
 @pytest_asyncio.fixture

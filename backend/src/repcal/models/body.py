@@ -2,23 +2,20 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from datetime import timezone as _tz
+from datetime import UTC, date, datetime
 
 from sqlmodel import Field, SQLModel, UniqueConstraint
 
 
 def _utcnow() -> datetime:
-    return datetime.now(_tz.utc)
+    return datetime.now(UTC)
 
 
 class BodyMetric(SQLModel, table=True):
     """One row per day per user (last write wins via upsert)."""
 
     __tablename__ = "body_metrics"
-    __table_args__ = (
-        UniqueConstraint("user_id", "recorded_on", name="uq_body_metrics_user_date"),
-    )
+    __table_args__ = (UniqueConstraint("user_id", "recorded_on", name="uq_body_metrics_user_date"),)
 
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="users.id", index=True)

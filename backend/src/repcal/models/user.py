@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from datetime import timezone as _tz
+from datetime import UTC, date, datetime
 
 from sqlmodel import Field, SQLModel, UniqueConstraint
 
 
 def _utcnow() -> datetime:
-    return datetime.now(_tz.utc)
+    return datetime.now(UTC)
 
 
 class User(SQLModel, table=True):
@@ -26,9 +25,7 @@ class UserIdentity(SQLModel, table=True):
     """Maps an external platform user (Discord/LINE/...) to an internal User."""
 
     __tablename__ = "user_identities"
-    __table_args__ = (
-        UniqueConstraint("platform", "external_id", name="uq_platform_external_id"),
-    )
+    __table_args__ = (UniqueConstraint("platform", "external_id", name="uq_platform_external_id"),)
 
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="users.id", index=True)

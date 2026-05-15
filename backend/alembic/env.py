@@ -1,6 +1,9 @@
 """Alembic environment.
 
 Loads the DB URL from app settings, and runs migrations against the async engine.
+
+Note: importing `repcal.models` (below) has the side effect of registering all
+tables with SQLModel.metadata, which is then assigned to `target_metadata`.
 """
 
 from __future__ import annotations
@@ -8,14 +11,13 @@ from __future__ import annotations
 import asyncio
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-# Make sure all models are imported so SQLModel.metadata knows about them.
+from alembic import context
 from repcal.config import settings
-from repcal.models import metadata  # noqa: F401
+from repcal.models import metadata
 
 config = context.config
 

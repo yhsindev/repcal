@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from datetime import timezone as _tz
+from datetime import UTC, date, datetime
 
 from sqlmodel import Field, SQLModel
 
 
 def _utcnow() -> datetime:
-    return datetime.now(_tz.utc)
+    return datetime.now(UTC)
 
 
 class NutritionPhase(SQLModel, table=True):

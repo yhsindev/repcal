@@ -46,9 +46,7 @@ def register_weight_command(tree: app_commands.CommandTree) -> None:
                 )
         except Exception:
             logger.exception("failed to record weight for user %s", interaction.user.id)
-            await interaction.followup.send(
-                "❌ 寫入失敗，稍後再試。", ephemeral=True
-            )
+            await interaction.followup.send("❌ 寫入失敗，稍後再試。", ephemeral=True)
             return
 
         await interaction.followup.send(
