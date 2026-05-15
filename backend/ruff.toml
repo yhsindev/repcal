@@ -1,0 +1,26 @@
+line-length = 100
+target-version = "py312"
+extend-exclude = ["alembic/versions"]
+
+[lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "B",     # flake8-bugbear
+    "UP",    # pyupgrade
+    "RUF",   # ruff-specific
+    "ASYNC", # async issues
+    "SIM",   # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (formatter handles it)
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["B"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
