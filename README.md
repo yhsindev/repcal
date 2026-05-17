@@ -32,6 +32,12 @@
 
 業務邏輯（services）跟 messaging 層解耦，未來搬到 LINE / Telegram 只要新增一個 adapter，service 一行不用改。
 
+## 學習筆記
+
+`docs/` 目錄存技術學習筆記，遇到觀念不熟可以回來查。
+
+- [`docs/uv-guide.md`](docs/uv-guide.md) — Python 套件管理工具 uv 的概念、指令、踩坑
+
 ## 本機 setup
 
 ### 1. 安裝工具
